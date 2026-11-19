@@ -12,7 +12,7 @@ Prof. Abel Guilhermino
 ![DE2-115](https://img.shields.io/badge/placa-DE2--115-1f2937?style=flat-square)
 ![Quartus](https://img.shields.io/badge/Quartus_Prime-20.1_Lite-1f2937?style=flat-square)
 
-[O projeto](#o-projeto) · [Como usar](#como-usar-na-placa) · [Instruções](#instruções) · [Teste rápido](#um-teste-rápido) · [Problemas comuns](#problemas-comuns) · [Equipe](#equipe)
+[O projeto](#o-projeto) · [Instruções](#instruções) · [Teste rápido](#um-teste-rápido) · [Arquivos](#organização-dos-arquivos) · [Equipe](#equipe)
 
 </div>
 
@@ -50,22 +50,6 @@ A CPU tem 16 registradores (R0 a R15), faz soma, subtração e multiplicação c
 </td>
 </tr>
 </table>
-
-## Como usar na placa
-
-1. Abra o projeto `03_quartus/mini_cpu.qpf` no Quartus e compile (Ctrl+L).
-2. Grave o arquivo `03_quartus/saida_compilacao/mini_cpu.sof` pelo Programmer.
-3. A placa começa desligada: LCD apagado e displays apagados. Aperte e solte o **KEY3** para ligar. O LCD mostra a tela inicial:
-   ```
-   ____      [----]
-             +00000
-   ```
-4. Monte a instrução nas chaves. Antes de enviar, confira nos displays HEX se ela está do jeito que você queria.
-5. Aperte e solte o **KEY2**. O resultado aparece no LCD.
-6. Para desligar, aperte e solte o **KEY3** de novo. Ao desligar, todos os registradores voltam a zero.
-
-> [!NOTE]
-> Os botões só agem quando você **solta**. Segurar o botão apertado não faz nada, e isso é proposital: o enunciado pede assim.
 
 ## Instruções
 
@@ -107,8 +91,7 @@ SW:  000   0010   0000   0   001100
 └────────────────┘
 ```
 
-> [!TIP]
-> Quando uma instrução não usa algum campo, deixe aquelas chaves em zero. Os displays HEX apagam os campos que a instrução não usa, o que ajuda a perceber se você escolheu a operação certa.
+Na placa, o sistema começa desligado. O KEY3 liga e desliga (ao desligar, os registradores são zerados) e o KEY2 executa a instrução que está nas chaves. Os dois agem quando o botão é solto.
 
 ## Um teste rápido
 
@@ -142,36 +125,6 @@ O valor certo seria 250047, mas ele não cabe em 16 bits, então a placa mostra 
 
 </details>
 
-## Problemas comuns
-
-<details>
-<summary><b>A placa não aparece no Programmer</b></summary>
-<br>
-
-Confira se o cabo está na porta USB marcada como **USB Blaster** (ao lado da entrada da fonte), se a chave RUN/PROG na lateral está em **RUN** e se a placa está ligada. Se mesmo assim a lista do Hardware Setup ficar vazia, falta o driver: no Gerenciador de Dispositivos do Windows, atualize o driver do USB-Blaster apontando para a pasta `drivers` da instalação do Quartus.
-</details>
-
-<details>
-<summary><b>Gravei, mas nada acontece</b></summary>
-<br>
-
-É o esperado: o sistema começa desligado. Aperte e **solte** o KEY3.
-</details>
-
-<details>
-<summary><b>O resultado não é o que eu esperava</b></summary>
-<br>
-
-Quase sempre é uma chave na posição errada. Antes de soltar o KEY2, olhe os displays HEX: o da esquerda mostra a operação, depois vêm os registradores e, à direita, o número. Lembre também que os registradores guardam os valores das instruções anteriores, então a ordem das instruções importa.
-</details>
-
-<details>
-<summary><b>Apertei o KEY2 e nada mudou</b></summary>
-<br>
-
-Ou o sistema está desligado (LEDG0 apagado), ou a CPU ainda estava ocupada com a instrução anterior (LEDG1 apagado). Espere o LEDG1 acender e tente de novo.
-</details>
-
 ## O que aprendemos
 
 A parte que mais deu trabalho não foi a CPU em si, e sim falar com o mundo de fora dela. O botão, por exemplo: o contato mecânico "treme" por alguns milissegundos quando é apertado ou solto, e sem um filtro um único toque executaria a instrução várias vezes. O LCD também tem o seu tempo: se a gente manda os caracteres rápido demais, ele mostra lixo. A solução foi dar ao LCD um controle próprio, que trabalha no ritmo dele enquanto a CPU segue livre para a próxima instrução.
@@ -185,7 +138,7 @@ MiniCPU_Projeto2_Final/
 ├── 01_codigo_verilog/   código do projeto (module_mini_cpu, module_alu, memory e módulos auxiliares)
 ├── 02_simulacao/        testes no computador antes de ir para a placa
 ├── 03_quartus/          projeto do Quartus, já com a pinagem configurada
-└── 04_apresentacao/     relatório técnico e material da apresentação
+└── 04_apresentacao/     relatório técnico
 ```
 
 O relatório em `04_apresentacao` explica cada módulo em detalhe, com diagramas e simulações.
