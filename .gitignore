@@ -1,0 +1,17 @@
+db/
+incremental_db/
+saida_compilacao/
+output_files/
+*.qws
+*.bak
+*.rpt
+*.summary
+*.smsg
+*.done
+*.jdi
+*.pin
+*.sld
+*.sof
+*.pof
+*.out
+*.vcd
